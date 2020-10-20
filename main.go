@@ -22,8 +22,8 @@ func main() {
 
 	// Register optional handlers.
 	d.Handle(
-		gatt.CentralConnected(func(c gatt.Central) { fmt.Println("Connect: ", c.ID()) }),
-		gatt.CentralDisconnected(func(c gatt.Central) { fmt.Println("Disconnect: ", c.ID()) }),
+		gatt.CentralConnected(func(c gatt.Central) { log.Println("Connect: " + c.ID()) }),
+		gatt.CentralDisconnected(func(c gatt.Central) { log.Println("Disconnect: " + c.ID()) }),
 	)
 
 	log.Println("Device has been opened")
