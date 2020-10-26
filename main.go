@@ -39,7 +39,7 @@ func main() {
 			d.AddService(service.NewGattService())        // no effect on OS X
 
 			// A simple count service for demo.
-			s1 := sensor.NewHumidityService()
+			s1 := sensor.NewTempHumidityService()
 			d.AddService(s1)
 
 			// Advertise device name and service's UUIDs.
