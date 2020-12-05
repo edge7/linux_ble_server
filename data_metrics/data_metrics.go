@@ -45,6 +45,23 @@ func check_anomalies(c []timeAndData, sensor string) {
 	}
 
 }
+func (dl *dataLogger) CheckTime() {
+	for sensor, elements := range dl.data_map {
+		size := len(elements)
+		if size == 0 {
+			continue
+		}
+		t1 := time.Now()
+		diff := t1.Sub(elements[size-1].timestamp)
+		hours := diff.Hours()
+		if hours > 5.0 {
+			mex := "Sensor " + sensor + " has last update value at " + elements[size-1].timestamp.Format("Mon Jan 2 15:04:05 2006")
+			ed7_logger.Warn(mex)
+			pushover_notification.NotifyPushover(mex, "Timeout sensor")
+		}
+
+	}
+}
 func (dl *dataLogger) AddValue(value_string string, new_value_s string) {
 	ed7_logger.Info("New value in dataLogger. Value is: " + new_value_s + " sensor is " + value_string)
 	new_value, _ := strconv.ParseFloat(new_value_s, 32)

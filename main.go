@@ -1,10 +1,12 @@
 package main
 
 import (
+	"ble_rasbpi/data_metrics"
 	"ble_rasbpi/logger"
 	"ble_rasbpi/sensors"
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/paypal/gatt"
 	"github.com/paypal/gatt/examples/option"
@@ -49,5 +51,14 @@ func main() {
 	}
 
 	d.Init(onStateChanged)
-	select {}
+	for {
+		go check_sensors_stuck()
+		time.Sleep(1 * time.Hour)
+	}
+}
+func check_sensors_stuck() {
+	ed7_logger.Info("Checking if sensors are stuck")
+	dl := data_metrics.GetDataLogger()
+	dl.CheckTime()
+
 }
