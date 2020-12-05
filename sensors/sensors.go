@@ -2,6 +2,7 @@ package sensor
 
 import (
 	h_utility "ble_rasbpi/http_utility"
+	"ble_rasbpi/logger"
 	"log"
 
 	"github.com/paypal/gatt"
@@ -25,7 +26,7 @@ func NewTempHumidityService() *gatt.Service {
 
 	c.HandleWriteFunc(
 		func(r gatt.Request, data []byte) (status byte) {
-			log.Println("Got Humidity Soil value: ", string(data))
+			ed7_logger.Info("Got Humidity Soil value: " + string(data))
 			humiditySoil = data
 			h_utility.Send_http_post("soil_humidity", string(data))
 			return gatt.StatusSuccess
@@ -36,12 +37,12 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(humidityOut)
-			log.Println("Sensor has read Humidity out")
+			ed7_logger.Info("Sensor has read Humidity out")
 		})
 
 	c.HandleWriteFunc(
 		func(r gatt.Request, data []byte) (status byte) {
-			log.Println("Got Humidity out value: ", string(data))
+			ed7_logger.Info("Got Humidity out value: " + string(data))
 			humidityOut = data
 			h_utility.Send_http_post("out_humidity", string(data))
 			return gatt.StatusSuccess
@@ -52,12 +53,12 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(tempOutside)
-			log.Println("Sensor has read Temperature out")
+			ed7_logger.Info("Sensor has read Temperature out")
 		})
 
 	c.HandleWriteFunc(
 		func(r gatt.Request, data []byte) (status byte) {
-			log.Println("Got Temperature out value: ", string(data))
+			ed7_logger.Info("Got Temperature out value: " + string(data))
 			tempOutside = data
 			h_utility.Send_http_post("out_temperature", string(data))
 			return gatt.StatusSuccess

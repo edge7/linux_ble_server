@@ -1,10 +1,10 @@
 package main
 
 import (
+	"ble_rasbpi/logger"
 	"ble_rasbpi/sensors"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/paypal/gatt"
 	"github.com/paypal/gatt/examples/option"
@@ -12,21 +12,20 @@ import (
 )
 
 func main() {
-	log.SetOutput(os.Stderr)
-	log.Println("Server BLE has just started")
+
+	ed7_logger.Info("Server BLE has just started")
 
 	d, err := gatt.NewDevice(option.DefaultServerOptions...)
 	if err != nil {
 		log.Fatalf("Failed to open device, err: %s", err)
 	}
-
 	// Register optional handlers.
 	d.Handle(
 		gatt.CentralConnected(func(c gatt.Central) { log.Println("Connect: " + c.ID()) }),
 		gatt.CentralDisconnected(func(c gatt.Central) { log.Println("Disconnect: " + c.ID()) }),
 	)
 
-	log.Println("Device has been opened")
+	ed7_logger.Info("Device has been opened")
 
 	// A mandatory handler for monitoring device state.
 	onStateChanged := func(d gatt.Device, s gatt.State) {
