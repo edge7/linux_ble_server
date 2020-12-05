@@ -4,6 +4,7 @@ import (
 	h_utility "ble_rasbpi/http_utility"
 	"ble_rasbpi/logger"
 	"log"
+	"os"
 
 	"github.com/paypal/gatt"
 )
@@ -13,7 +14,15 @@ var tempOutside = []byte("-1")
 var humidityOut = []byte("-1")
 
 func NewTempHumidityService() *gatt.Service {
-	s := gatt.NewService(gatt.MustParseUUID("09fc95c0-c111-11e3-9904-0002a5d5c51b"))
+	service_ble := os.Getenv("service_ble")
+	if len(service_ble) > 0 {
+		ed7_logger.Info("Service BLE is defined as " + service_ble)
+		ed7_logger.Info("Am gonna use that one")
+	} else {
+		ed7_logger.Info("Service BLE is not defined using the default ")
+		service_ble = "09fc95c0-c111-11e3-9904-0002a5d5c51b"
+	}
+	s := gatt.NewService(gatt.MustParseUUID(service_ble))
 
 	c := s.AddCharacteristic(gatt.MustParseUUID("11fac9e0-c111-11e3-9246-0002a5d5c51b"))
 
