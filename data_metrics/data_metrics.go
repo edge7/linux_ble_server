@@ -41,7 +41,7 @@ func check_anomalies(c []timeAndData, sensor string) {
 		ed7_logger.Warn("List values: " + old_list)
 		ed7_logger.Warn("Current value is: " + fmt.Sprintf("%f", c[4].data))
 	} else {
-		ed7_logger.Info("Sensor: " + sensor + ". No Anomaly as % diff is " + fmt.Sprintf("%f", diff))
+		ed7_logger.Info("Sensor: " + sensor + ". No Anomaly as diff is " + fmt.Sprintf("%f", diff))
 	}
 
 }

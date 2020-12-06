@@ -53,7 +53,7 @@ func main() {
 	d.Init(onStateChanged)
 	for {
 		go check_sensors_stuck()
-		time.Sleep(1 * time.Hour)
+		time.Sleep(15 * time.Hour)
 	}
 }
 func check_sensors_stuck() {
