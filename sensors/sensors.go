@@ -75,7 +75,7 @@ func NewTempHumidityService() *gatt.Service {
 			f, err := strconv.ParseFloat(string(data), 64)
 			if err == nil {
 				if f < 0 {
-					valueToSend = fmt.Sprintf("%f", (f + 3275.0))
+					valueToSend = fmt.Sprintf("%.2f", (f + 3275.0))
 					ed7_logger.Info("Modifying original, now I have got ", valueToSend)
 				}
 			}
