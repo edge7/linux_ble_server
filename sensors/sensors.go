@@ -3,8 +3,10 @@ package sensor
 import (
 	h_utility "ble_rasbpi/http_utility"
 	"ble_rasbpi/logger"
+	"fmt"
 	"log"
 	"os"
+	"strconv"
 
 	"github.com/paypal/gatt"
 )
@@ -69,7 +71,15 @@ func NewTempHumidityService() *gatt.Service {
 		func(r gatt.Request, data []byte) (status byte) {
 			ed7_logger.Info("Got Temperature out value: " + string(data))
 			tempOutside = data
-			h_utility.Send_http_post("out_temperature", string(data))
+			valueToSend := string(data)
+			f, err := strconv.ParseFloat(string(data), 64)
+			if err == nil {
+				if f < 0 {
+					valueToSend = fmt.Sprintf("%f", (f + 3275.0))
+					ed7_logger.Info("Modifying original, now I have got ", valueToSend)
+				}
+			}
+			h_utility.Send_http_post("out_temperature", valueToSend)
 			return gatt.StatusSuccess
 		})
 
