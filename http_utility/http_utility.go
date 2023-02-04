@@ -2,7 +2,7 @@ package http_utility
 
 import (
 	"ble_server/data_metrics"
-	"ble_server/notifications"
+	//"ble_server/notifications"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
@@ -30,7 +30,7 @@ func Send_http_post(type_sensor string, value string) {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Error("Error when trying to connect to Server HTTP")
-		pushover_notification.NotifyPushover("Unable to push HTTP from GO", "Irrigation")
+		//pushover_notification.NotifyPushover("Unable to push HTTP from GO", "Irrigation")
 		return
 
 	}
