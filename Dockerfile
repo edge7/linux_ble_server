@@ -1,4 +1,4 @@
-FROM golang:latest
+FROM golang:1.18
 #RUN hciconfig
 #RUN hciconfig hci0 down  # or whatever hci device you want to use
 #RUN service bluetooth stop
