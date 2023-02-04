@@ -4,7 +4,7 @@ FROM golang:1.18
 #RUN service bluetooth stop
 RUN apt-get update
 RUN apt-get install -y bluez bluetooth
-WORDIR /home/edge7/
+WORKDIR /home/edge7/
 COPY . .
 RUN echo $(ls)
 RUN go build -o ble_server main.go
