@@ -32,7 +32,7 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(humiditySoil)
-			log.Println("Sensor has read Humidty Soil value")
+			ed7_logger.Info("Sensor has read Humidty Soil value")
 		})
 
 	c.HandleWriteFunc(
