@@ -1,8 +1,8 @@
 package http_utility
 
 import (
-	"ble_rasbpi/data_metrics"
-	"ble_rasbpi/notifications"
+	"ble_server/data_metrics"
+	"ble_server/notifications"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"

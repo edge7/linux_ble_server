@@ -1,8 +1,8 @@
 package data_metrics
 
 import (
-	"ble_rasbpi/logger"
-	"ble_rasbpi/notifications"
+	"ble_server/logger"
+	"ble_server/notifications"
 	"fmt"
 	"math"
 	"strconv"

@@ -1,8 +1,8 @@
 package sensor
 
 import (
-	h_utility "ble_rasbpi/http_utility"
-	"ble_rasbpi/logger"
+	h_utility "ble_server/http_utility"
+	"ble_server/logger"
 	"fmt"
 	"log"
 	"os"
