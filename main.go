@@ -1,9 +1,9 @@
 package main
 
 import (
-	"ble_rasbpi/data_metrics"
-	"ble_rasbpi/logger"
-	"ble_rasbpi/sensors"
+	"ble_server/data_metrics"
+	"ble_server/logger"
+	"ble_server/sensors"
 	"fmt"
 	"log"
 	"time"

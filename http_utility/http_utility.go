@@ -1,8 +1,8 @@
 package http_utility
 
 import (
-	"ble_rasbpi/data_metrics"
-	"ble_rasbpi/notifications"
+	"ble_server/data_metrics"
+	//"ble_server/notifications"
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
@@ -17,6 +17,7 @@ func Send_http_post(type_sensor string, value string) {
 		"out_humidity":    "http://localhost:8080/api/data/put_out_humidity",
 		"soil_humidity":   "http://localhost:8080/api/data/put_soil_humidity",
 		"out_temperature": "http://localhost:8080/api/data/put_out_temperature",
+		"current":         "http://localhost:8080/api/data/put_current",
 	}
 	url := api_url_map[type_sensor]
 	dl := data_metrics.GetDataLogger()
@@ -30,7 +31,7 @@ func Send_http_post(type_sensor string, value string) {
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Error("Error when trying to connect to Server HTTP")
-		pushover_notification.NotifyPushover("Unable to push HTTP from GO", "Irrigation")
+		//pushover_notification.NotifyPushover("Unable to push HTTP from GO", "Irrigation")
 		return
 
 	}

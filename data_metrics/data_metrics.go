@@ -1,8 +1,8 @@
 package data_metrics
 
 import (
-	"ble_rasbpi/logger"
-	"ble_rasbpi/notifications"
+	"ble_server/logger"
+	"ble_server/notifications"
 	"fmt"
 	"math"
 	"strconv"
@@ -95,6 +95,7 @@ func GetDataLogger() *dataLogger {
 				"out_humidity":    make([]timeAndData, 0, 5),
 				"soil_humidity":   make([]timeAndData, 0, 5),
 				"out_temperature": make([]timeAndData, 0, 5),
+				"current": make([]timeAndData, 0, 5),
 			}
 			dl = &dataLogger{
 				data_map: data_map_init,
