@@ -17,6 +17,7 @@ func Send_http_post(type_sensor string, value string) {
 		"out_humidity":    "http://localhost:8080/api/data/put_out_humidity",
 		"soil_humidity":   "http://localhost:8080/api/data/put_soil_humidity",
 		"out_temperature": "http://localhost:8080/api/data/put_out_temperature",
+		"current":         "http://localhost:8080/api/data/put_current",
 	}
 	url := api_url_map[type_sensor]
 	dl := data_metrics.GetDataLogger()

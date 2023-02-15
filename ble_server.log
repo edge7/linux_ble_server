@@ -79,3 +79,4 @@ time="Sat Dec 5 15:32:12 CET 2020" level=info msg="New value in dataLogger. Valu
 time="Sat Dec 5 15:32:13 CET 2020" level=warning msg="List values:  __ 123.099998 __  __ 123.099998 __  __ 123.099998 __  __ 123.099998 __ "
 time="Sat Dec 5 15:32:13 CET 2020" level=warning msg="Current value is: 1123.099976"
 time="Sat Feb 4 12:51:56 CET 2023" level=info msg="Server BLE has just started"
+time="Wed Feb 15 15:39:25 CET 2023" level=info msg="Server BLE has just started"

@@ -95,6 +95,7 @@ func GetDataLogger() *dataLogger {
 				"out_humidity":    make([]timeAndData, 0, 5),
 				"soil_humidity":   make([]timeAndData, 0, 5),
 				"out_temperature": make([]timeAndData, 0, 5),
+				"current": make([]timeAndData, 0, 5),
 			}
 			dl = &dataLogger{
 				data_map: data_map_init,

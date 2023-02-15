@@ -13,6 +13,7 @@ import (
 var humiditySoil = []byte("-1")
 var tempOutside = []byte("-1")
 var humidityOut = []byte("-1")
+var current = []byte("-1")
 
 func NewTempHumidityService() *gatt.Service {
 	service_ble := os.Getenv("service_ble")
@@ -55,6 +56,22 @@ func NewTempHumidityService() *gatt.Service {
 			ed7_logger.Info("Got Humidity out value: " + string(data))
 			humidityOut = data
 			h_utility.Send_http_post("out_humidity", string(data))
+			return gatt.StatusSuccess
+		})
+
+	// Current sensor
+	c = s.AddCharacteristic(gatt.MustParseUUID("11cac9e0-c111-11e3-9246-0002a5d5c51c"))
+	c.HandleReadFunc(
+		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
+			rsp.Write(current)
+			ed7_logger.Info("Sensor has read current")
+		})
+
+	c.HandleWriteFunc(
+		func(r gatt.Request, data []byte) (status byte) {
+			ed7_logger.Info("Got Current value: " + string(data))
+			current = data
+			h_utility.Send_http_post("current", string(data))
 			return gatt.StatusSuccess
 		})
 
