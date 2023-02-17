@@ -35,8 +35,11 @@ func check_anomalies(c []timeAndData, sensor string) {
 	avg = avg / 4
 	diff := math.Abs(float64((c[4].data-avg)/avg)) * 100.0
 	if diff > 30.0 {
-		pushover_notification.NotifyPushover("Diff is "+
-			fmt.Sprintf("%f", diff), sensor)
+
+		if value_string != "current" {
+			pushover_notification.NotifyPushover("Diff is "+
+				fmt.Sprintf("%f", diff), sensor)
+		}
 		ed7_logger.Warn("Extreme value for " + sensor)
 		ed7_logger.Warn("List values: " + old_list)
 		ed7_logger.Warn("Current value is: " + fmt.Sprintf("%f", c[4].data))
@@ -95,7 +98,7 @@ func GetDataLogger() *dataLogger {
 				"out_humidity":    make([]timeAndData, 0, 5),
 				"soil_humidity":   make([]timeAndData, 0, 5),
 				"out_temperature": make([]timeAndData, 0, 5),
-				"current": make([]timeAndData, 0, 5),
+				"current":         make([]timeAndData, 0, 5),
 			}
 			dl = &dataLogger{
 				data_map: data_map_init,
