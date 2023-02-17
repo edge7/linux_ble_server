@@ -36,7 +36,7 @@ func check_anomalies(c []timeAndData, sensor string) {
 	diff := math.Abs(float64((c[4].data-avg)/avg)) * 100.0
 	if diff > 30.0 {
 
-		if value_string != "current" {
+		if sensor != "current" {
 			pushover_notification.NotifyPushover("Diff is "+
 				fmt.Sprintf("%f", diff), sensor)
 		}
