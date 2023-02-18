@@ -25,12 +25,6 @@ func NewTempHumidityService() *gatt.Service {
 	}
 	s := gatt.NewService(gatt.MustParseUUID(serviceBle))
 
-	// Add a callback for when a client disconnects
-	s.OnDisconnected(func(c gatt.Central) {
-		// Handle the disconnection event here
-		fmt.Println("\n")
-	})
-
 	c := s.AddCharacteristic(gatt.MustParseUUID("11fac9e0-c111-11e3-9246-0002a5d5c51b"))
 
 	// Humidity Soil

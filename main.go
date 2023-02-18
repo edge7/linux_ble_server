@@ -2,8 +2,6 @@ package main
 
 import (
 	"ble_server/data_metrics"
-	"ble_server/logger"
-	"ble_server/sensors"
 	"fmt"
 	"log"
 	"time"
@@ -23,8 +21,8 @@ func main() {
 	}
 	// Register optional handlers.
 	d.Handle(
-		gatt.CentralConnected(func(c gatt.Central) { log.Println("Connect: " + c.ID()) }),
-		gatt.CentralDisconnected(func(c gatt.Central) { log.Println("Disconnect: " + c.ID()) }),
+		gatt.CentralConnected(func(c gatt.Central) { log.Println("\n--- Connect: " + c.ID()) }),
+		gatt.CentralDisconnected(func(c gatt.Central) { log.Println("\n--- Disconnect: " + c.ID() + "\n\n") }),
 	)
 
 	ed7_logger.Info("Device has been opened")
