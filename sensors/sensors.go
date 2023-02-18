@@ -2,7 +2,6 @@ package sensor
 
 import (
 	h_utility "ble_server/http_utility"
-	"ble_server/logger"
 	"fmt"
 	"os"
 	"strconv"
@@ -16,15 +15,21 @@ var humidityOut = []byte("-1")
 var current = []byte("-1")
 
 func NewTempHumidityService() *gatt.Service {
-	service_ble := os.Getenv("service_ble")
-	if len(service_ble) > 0 {
-		ed7_logger.Info("Service BLE is defined as " + service_ble)
+	serviceBle := os.Getenv("service_ble")
+	if len(serviceBle) > 0 {
+		ed7_logger.Info("Service BLE is defined as " + serviceBle)
 		ed7_logger.Info("Am gonna use that one")
 	} else {
 		ed7_logger.Info("Service BLE is not defined using the default ")
-		service_ble = "09fc95c0-c111-11e3-9904-0002a5d5c51b"
+		serviceBle = "09fc95c0-c111-11e3-9904-0002a5d5c51b"
 	}
-	s := gatt.NewService(gatt.MustParseUUID(service_ble))
+	s := gatt.NewService(gatt.MustParseUUID(serviceBle))
+
+	// Add a callback for when a client disconnects
+	s.OnDisconnected(func(c gatt.Central) {
+		// Handle the disconnection event here
+		fmt.Println("\n")
+	})
 
 	c := s.AddCharacteristic(gatt.MustParseUUID("11fac9e0-c111-11e3-9246-0002a5d5c51b"))
 
@@ -32,7 +37,7 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(humiditySoil)
-			ed7_logger.Info("Sensor has read Humidty Soil value")
+			ed7_logger.Info("Sensor has read Humidity Soil value")
 		})
 
 	c.HandleWriteFunc(
