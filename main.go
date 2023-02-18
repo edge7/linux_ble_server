@@ -2,6 +2,8 @@ package main
 
 import (
 	"ble_server/data_metrics"
+	ed7logger "ble_server/logger"
+	sensor "ble_server/sensors"
 	"fmt"
 	"log"
 	"time"
@@ -13,7 +15,7 @@ import (
 
 func main() {
 
-	ed7_logger.Info("Server BLE has just started")
+	ed7logger.Info("Server BLE has just started")
 
 	d, err := gatt.NewDevice(option.DefaultServerOptions...)
 	if err != nil {
@@ -25,7 +27,7 @@ func main() {
 		gatt.CentralDisconnected(func(c gatt.Central) { log.Println("\n--- Disconnect: " + c.ID() + "\n\n") }),
 	)
 
-	ed7_logger.Info("Device has been opened")
+	ed7logger.Info("Device has been opened")
 
 	// A mandatory handler for monitoring device state.
 	onStateChanged := func(d gatt.Device, s gatt.State) {
@@ -50,12 +52,12 @@ func main() {
 
 	d.Init(onStateChanged)
 	for {
-		go check_sensors_stuck()
+		go checkSensorsStuck()
 		time.Sleep(15 * time.Hour)
 	}
 }
-func check_sensors_stuck() {
-	ed7_logger.Info("Checking if sensors are stuck")
+func checkSensorsStuck() {
+	ed7logger.Info("Checking if sensors are stuck")
 	dl := data_metrics.GetDataLogger()
 	dl.CheckTime()
 

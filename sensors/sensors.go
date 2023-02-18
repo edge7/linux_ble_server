@@ -1,7 +1,8 @@
 package sensor
 
 import (
-	h_utility "ble_server/http_utility"
+	hutility "ble_server/http_utility"
+	ed7logger "ble_server/logger"
 	"fmt"
 	"os"
 	"strconv"
@@ -17,10 +18,10 @@ var current = []byte("-1")
 func NewTempHumidityService() *gatt.Service {
 	serviceBle := os.Getenv("service_ble")
 	if len(serviceBle) > 0 {
-		ed7_logger.Info("Service BLE is defined as " + serviceBle)
-		ed7_logger.Info("Am gonna use that one")
+		ed7logger.Info("Service BLE is defined as " + serviceBle)
+		ed7logger.Info("Am gonna use that one")
 	} else {
-		ed7_logger.Info("Service BLE is not defined using the default ")
+		ed7logger.Info("Service BLE is not defined using the default ")
 		serviceBle = "09fc95c0-c111-11e3-9904-0002a5d5c51b"
 	}
 	s := gatt.NewService(gatt.MustParseUUID(serviceBle))
@@ -31,14 +32,14 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(humiditySoil)
-			ed7_logger.Info("Sensor has read Humidity Soil value")
+			ed7logger.Info("Sensor has read Humidity Soil value")
 		})
 
 	c.HandleWriteFunc(
 		func(r gatt.Request, data []byte) (status byte) {
-			ed7_logger.Info("Got Humidity Soil value: " + string(data))
+			ed7logger.Info("Got Humidity Soil value: " + string(data))
 			humiditySoil = data
-			h_utility.Send_http_post("soil_humidity", string(data))
+			hutility.Send_http_post("soil_humidity", string(data))
 			return gatt.StatusSuccess
 		})
 
@@ -47,14 +48,14 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(humidityOut)
-			ed7_logger.Info("Sensor has read Humidity out")
+			ed7logger.Info("Sensor has read Humidity out")
 		})
 
 	c.HandleWriteFunc(
 		func(r gatt.Request, data []byte) (status byte) {
-			ed7_logger.Info("Got Humidity out value: " + string(data))
+			ed7logger.Info("Got Humidity out value: " + string(data))
 			humidityOut = data
-			h_utility.Send_http_post("out_humidity", string(data))
+			hutility.Send_http_post("out_humidity", string(data))
 			return gatt.StatusSuccess
 		})
 
@@ -63,14 +64,14 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(current)
-			ed7_logger.Info("Sensor has read current")
+			ed7logger.Info("Sensor has read current")
 		})
 
 	c.HandleWriteFunc(
 		func(r gatt.Request, data []byte) (status byte) {
-			ed7_logger.Info("Got Current value: " + string(data))
+			ed7logger.Info("Got Current value: " + string(data))
 			current = data
-			h_utility.Send_http_post("current", string(data))
+			hutility.Send_http_post("current", string(data))
 			return gatt.StatusSuccess
 		})
 
@@ -79,22 +80,22 @@ func NewTempHumidityService() *gatt.Service {
 	c.HandleReadFunc(
 		func(rsp gatt.ResponseWriter, req *gatt.ReadRequest) {
 			rsp.Write(tempOutside)
-			ed7_logger.Info("Sensor has read Temperature out")
+			ed7logger.Info("Sensor has read Temperature out")
 		})
 
 	c.HandleWriteFunc(
 		func(r gatt.Request, data []byte) (status byte) {
-			ed7_logger.Info("Got Temperature out value: " + string(data))
+			ed7logger.Info("Got Temperature out value: " + string(data))
 			tempOutside = data
 			valueToSend := string(data)
 			f, err := strconv.ParseFloat(string(data), 64)
 			if err == nil {
 				if f < 0 {
 					valueToSend = fmt.Sprintf("%.2f", (f + 3275.0))
-					ed7_logger.Info("Modifying original, now I have got ", valueToSend)
+					ed7logger.Info("Modifying original, now I have got ", valueToSend)
 				}
 			}
-			h_utility.Send_http_post("out_temperature", valueToSend)
+			hutility.Send_http_post("out_temperature", valueToSend)
 			return gatt.StatusSuccess
 		})
 
